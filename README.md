@@ -12,7 +12,7 @@ Puis il faut configurer quels sont les dossiers à fusionner.<br>
 Pour cela, ouvire le fichier conf.txt.<br>
 A l'intérieur : 
 <ol>
-<li>la première ligne équivaut à l'ancien fichiers, celui auquel l'on doit rajouter des choses.</li>
+<li>la première ligne équivaut à l'ancien fichier, celui auquel l'on doit rajouter des choses.</li>
 <li>la deuxième équivaut au nouveau fichier, ce que l'on veut rajouter</li>
 <li>la troisième (optionelle) est le nom du fichier de sortie (mettre l'extension .html)</li>
 </ol>
