@@ -13,14 +13,14 @@ std::string ToHtml(const std::vector<std::string>& merged,const std::vector<std:
 {
 	std::string tmp;
 
-	for(std::vector<std::string>::const_iterator it = merged.begin(), end = merged.end(); it != end; ++it)
+	for(auto& it : merged)
 	{
-		if(std::find(new_mails.begin(),new_mails.end(),*it) != new_mails.end())
+		if(std::find(new_mails.begin(),new_mails.end(),it) != new_mails.end())
 		{
-			tmp += "<font color=\"red\"><b>" + *it + "</b></font></br>";
+			tmp += "<font color=\"red\"><b>" + it + "</b></font></br>";
 		}
 		else
-			tmp += *it + "</br>";
+			tmp += it + "</br>";
 	}
 
 	return tmp;
@@ -28,26 +28,34 @@ std::string ToHtml(const std::vector<std::string>& merged,const std::vector<std:
 
 int main(int argc, char* argv[])
 {
-	if(argc == 1)
-	{
-		std::cout << Usage() << std::endl;
-		char c;
-		std::cin >> c;
-		return 1;
-	}
-	
-	std::ifstream file1(argv[1]);
-	if(file1.bad())
+	std::ifstream conf("conf.txt");
+	if(conf.fail())
 	{
 		std::cout << "N'as pas pu ouvrir : "<< argv[1] << std::endl;
 		char c;
 		std::cin >> c;
 		return 1;
 	}
-	std::ifstream file2(argv[2]);
-	if(file2.bad())
+
+	std::string filename1, filename2, output;
+
+	std::getline(conf,filename1);
+	std::getline(conf,filename2);
+	std::getline(conf,output);
+
+	std::ifstream file1(filename1);
+	if(file1.fail())
 	{
-		std::cout << "N'as pas pu ouvrir : "<< argv[2] << std::endl;
+		std::cout << "N'as pas pu ouvrir : "<< filename1 << std::endl;
+		char c;
+		std::cin >> c;
+		return 1;
+	}
+
+	std::ifstream file2(filename2);
+	if(file2.fail())
+	{
+		std::cout << "N'as pas pu ouvrir : "<< filename2 << std::endl;
 		char c;
 		std::cin >> c;
 		return 1;
@@ -80,7 +88,7 @@ int main(int argc, char* argv[])
 
 	merged.resize(it - merged.begin());
 
-	std::ofstream of("merged_mails.html");
+	std::ofstream of(output.empty() ? "merged_mails.html" : output);
 	of << ToHtml(merged,new_mails);
 
 	return 0;
